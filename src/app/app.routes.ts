@@ -1,4 +1,9 @@
 import { Routes } from '@angular/router';
-import { EmployeeList } from './employees/employee-list/employee-list';
 
-export const routes: Routes = [{ path: 'employees', component: EmployeeList }];
+export const routes: Routes = [
+  {
+    path: 'employees',
+    loadComponent: () =>
+      import('./employees/employee-list/employee-list').then(({ EmployeeList }) => EmployeeList),
+  },
+];
