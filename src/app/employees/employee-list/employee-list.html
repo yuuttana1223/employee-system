@@ -7,7 +7,7 @@
   (input)="updateSearchTerm($event.target.value)"
 />
 <p>検索キーワード: {{ searchTerm() }}</p>
-@for (employee of employees; track employee.id) {
+@for (employee of filteredEmployees(); track employee.id) {
   <section>
     <p>名前: {{ employee.name }}</p>
     <p>部署: {{ employee.department }}</p>

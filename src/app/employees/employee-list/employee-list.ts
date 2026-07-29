@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { Employee } from '../employee';
@@ -36,6 +36,18 @@ export class EmployeeList {
       status: 'inactive',
     },
   ];
+
+  protected readonly filteredEmployees = computed(() => {
+    const searchTerm = this.searchTerm().trim();
+
+    if (searchTerm === '') {
+      return this.employees;
+    }
+
+    return this.employees.filter((employee) =>
+      employee.name.includes(searchTerm),
+    );
+  });
 
   protected updateSearchTerm(searchTerm: string): void {
     this.searchTerm.set(searchTerm);
