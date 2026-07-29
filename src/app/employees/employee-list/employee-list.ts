@@ -1,14 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { Employee } from '../employee';
+import { EmployeeListItem } from '../employee-list-item/employee-list-item';
 
 type EmployeeStatusFilter = 'all' | Employee['status'];
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [EmployeeListItem],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.scss',
 })

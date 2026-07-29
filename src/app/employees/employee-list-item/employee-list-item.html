@@ -1,0 +1,11 @@
+<section>
+  <p>名前: {{ employee().name }}</p>
+  <p>部署: {{ employee().department }}</p>
+  <p>役職: {{ employee().position }}</p>
+  @if (employee().status === 'active') {
+    <p>ステータス: 在籍中</p>
+  } @else {
+    <p>ステータス: 退職済み</p>
+  }
+  <a [routerLink]="['/employees', employee().id]">詳細を見る</a>
+</section>
