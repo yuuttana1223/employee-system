@@ -61,4 +61,29 @@ describe('従業員一覧項目', () => {
     expect(element.textContent).toContain('ステータス: 退職済み');
     expect(element.textContent).not.toContain('ステータス: 在籍中');
   });
+
+  it('従業員IDから詳細リンクを生成する', async () => {
+    TestBed.configureTestingModule({
+      imports: [EmployeeListItem],
+      providers: [provideRouter([])],
+    });
+    const fixture = TestBed.createComponent(EmployeeListItem);
+
+    const employee: Employee = {
+      id: '42',
+      name: '山田 太郎',
+      department: '開発部',
+      position: 'Webエンジニア',
+      status: 'active',
+    };
+
+    fixture.componentRef.setInput('employee', employee);
+    await fixture.whenStable();
+
+    const element: HTMLElement = fixture.nativeElement;
+    const link = element.querySelector<HTMLAnchorElement>('a');
+
+    expect(link).not.toBeNull();
+    expect(link?.getAttribute('href')).toBe('/employees/42');
+  });
 });
