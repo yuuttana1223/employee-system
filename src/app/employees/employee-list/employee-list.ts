@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { Employee } from '../employee';
@@ -11,6 +11,8 @@ import { Employee } from '../employee';
   styleUrl: './employee-list.scss',
 })
 export class EmployeeList {
+  protected readonly keyword = signal('');
+
   protected readonly employees: Employee[] = [
     {
       id: '1',
@@ -34,4 +36,8 @@ export class EmployeeList {
       status: 'inactive',
     },
   ];
+
+  protected updateKeyword(keyword: string): void {
+    this.keyword.set(keyword);
+  }
 }

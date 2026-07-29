@@ -1,4 +1,12 @@
 <h1>従業員一覧</h1>
+<label for="employee-keyword">従業員名で検索</label>
+<input
+  id="employee-keyword"
+  type="search"
+  [value]="keyword()"
+  (input)="updateKeyword($event.target.value)"
+/>
+<p>検索キーワード: {{ keyword() }}</p>
 @for (employee of employees; track employee.id) {
   <section>
     <p>名前: {{ employee.name }}</p>
