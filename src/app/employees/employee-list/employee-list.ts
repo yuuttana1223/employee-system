@@ -49,6 +49,10 @@ export class EmployeeList {
     );
   });
 
+  protected readonly filteredEmployeeCount = computed(
+    () => this.filteredEmployees().length,
+  );
+
   protected updateSearchTerm(searchTerm: string): void {
     this.searchTerm.set(searchTerm);
   }
