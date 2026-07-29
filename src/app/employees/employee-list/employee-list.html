@@ -6,4 +6,6 @@
     <p>役職: {{ employee.position }}</p>
     <a [routerLink]="['/employees', employee.id]">詳細を見る</a>
   </section>
+} @empty {
+  <p>従業員が登録されていません</p>
 }
