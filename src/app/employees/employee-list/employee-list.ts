@@ -17,18 +17,21 @@ export class EmployeeList {
       name: '山田 太郎',
       department: '開発部',
       position: 'Webエンジニア',
+      status: 'active',
     },
     {
       id: '2',
       name: '佐藤 花子',
       department: '人事部',
       position: '採用担当',
+      status: 'active',
     },
     {
       id: '3',
       name: '鈴木 一郎',
       department: '営業部',
       position: '法人営業',
+      status: 'inactive',
     },
   ];
 }
