@@ -11,7 +11,7 @@ import { Employee } from '../employee';
   styleUrl: './employee-list.scss',
 })
 export class EmployeeList {
-  protected readonly keyword = signal('');
+  protected readonly searchTerm = signal('');
 
   protected readonly employees: Employee[] = [
     {
@@ -37,7 +37,7 @@ export class EmployeeList {
     },
   ];
 
-  protected updateKeyword(keyword: string): void {
-    this.keyword.set(keyword);
+  protected updateSearchTerm(searchTerm: string): void {
+    this.searchTerm.set(searchTerm);
   }
 }

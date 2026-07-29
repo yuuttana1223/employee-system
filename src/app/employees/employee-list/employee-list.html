@@ -1,12 +1,12 @@
 <h1>従業員一覧</h1>
-<label for="employee-keyword">従業員名で検索</label>
+<label for="employee-search-term">従業員名で検索</label>
 <input
-  id="employee-keyword"
+  id="employee-search-term"
   type="search"
-  [value]="keyword()"
-  (input)="updateKeyword($event.target.value)"
+  [value]="searchTerm()"
+  (input)="updateSearchTerm($event.target.value)"
 />
-<p>検索キーワード: {{ keyword() }}</p>
+<p>検索キーワード: {{ searchTerm() }}</p>
 @for (employee of employees; track employee.id) {
   <section>
     <p>名前: {{ employee.name }}</p>
