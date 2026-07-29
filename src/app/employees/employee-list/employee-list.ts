@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 
 import { Employee } from '../employee';
 
+type EmployeeStatusFilter = 'all' | Employee['status'];
+
 @Component({
   selector: 'app-employee-list',
   standalone: true,
@@ -12,6 +14,7 @@ import { Employee } from '../employee';
 })
 export class EmployeeList {
   protected readonly searchTerm = signal('');
+  protected readonly statusFilter = signal<EmployeeStatusFilter>('all');
 
   protected readonly employees: Employee[] = [
     {
@@ -39,14 +42,17 @@ export class EmployeeList {
 
   protected readonly filteredEmployees = computed(() => {
     const searchTerm = this.searchTerm().trim();
+    const statusFilter = this.statusFilter();
 
-    if (searchTerm === '') {
-      return this.employees;
-    }
+    return this.employees.filter((employee) => {
+      const matchesSearchTerm =
+        searchTerm === '' || employee.name.includes(searchTerm);
 
-    return this.employees.filter((employee) =>
-      employee.name.includes(searchTerm),
-    );
+      const matchesStatus =
+        statusFilter === 'all' || employee.status === statusFilter;
+
+      return matchesSearchTerm && matchesStatus;
+    });
   });
 
   protected readonly filteredEmployeeCount = computed(
@@ -55,5 +61,17 @@ export class EmployeeList {
 
   protected updateSearchTerm(searchTerm: string): void {
     this.searchTerm.set(searchTerm);
+  }
+
+  protected updateStatusFilter(statusFilter: string): void {
+    if (
+      statusFilter !== 'all' &&
+      statusFilter !== 'active' &&
+      statusFilter !== 'inactive'
+    ) {
+      return;
+    }
+
+    this.statusFilter.set(statusFilter);
   }
 }

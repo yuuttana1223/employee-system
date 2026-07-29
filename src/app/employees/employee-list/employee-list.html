@@ -7,6 +7,17 @@
   (input)="updateSearchTerm($event.target.value)"
 />
 <p>検索キーワード: {{ searchTerm() }}</p>
+<label for="employee-status-filter">在籍ステータス</label>
+<select
+  #statusFilterSelect
+  id="employee-status-filter"
+  [value]="statusFilter()"
+  (change)="updateStatusFilter(statusFilterSelect.value)"
+>
+  <option value="all">すべて</option>
+  <option value="active">在籍中</option>
+  <option value="inactive">退職済み</option>
+</select>
 <p>表示件数: {{ filteredEmployeeCount() }}件</p>
 @for (employee of filteredEmployees(); track employee.id) {
   <section>
