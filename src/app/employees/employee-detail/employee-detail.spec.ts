@@ -51,4 +51,47 @@ describe('従業員詳細', () => {
     expect(element.textContent).toContain('役職: QAエンジニア');
     expect(element.textContent).toContain('ステータス: 在籍中');
   });
+
+  it('存在しない従業員IDの場合は見つからないことを表示する', async () => {
+    const employee: Employee = {
+      id: '42',
+      name: 'テスト 花子',
+      department: '品質保証部',
+      position: 'QAエンジニア',
+      status: 'active',
+    };
+    const employeeServiceStub: Pick<EmployeeService, 'getEmployeeById'> = {
+      getEmployeeById: (employeeId) =>
+        employeeId === employee.id ? employee : undefined,
+    };
+
+    TestBed.configureTestingModule({
+      imports: [EmployeeDetail],
+      providers: [
+        provideRouter([
+          {
+            path: 'employees/:employeeId',
+            component: EmployeeDetail,
+          },
+        ]),
+        {
+          provide: EmployeeService,
+          useValue: employeeServiceStub,
+        },
+      ],
+    });
+
+    const harness = await RouterTestingHarness.create();
+
+    await harness.navigateByUrl('/employees/999', EmployeeDetail);
+
+    const element = harness.routeNativeElement;
+
+    if (element === null) {
+      throw new Error('EmployeeDetailが表示されていません');
+    }
+
+    expect(element.textContent).toContain('従業員が見つかりません');
+    expect(element.textContent).not.toContain('テスト 花子');
+  });
 });
