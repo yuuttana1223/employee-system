@@ -1,6 +1,7 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 
 import { Employee } from '../employee';
+import { EmployeeService } from '../employee-service';
 import { EmployeeListItem } from '../employee-list-item/employee-list-item';
 
 type EmployeeStatusFilter = 'all' | Employee['status'];
@@ -13,32 +14,11 @@ type EmployeeStatusFilter = 'all' | Employee['status'];
   styleUrl: './employee-list.scss',
 })
 export class EmployeeList {
+  private readonly employeeService = inject(EmployeeService);
+
   protected readonly searchTerm = signal('');
   protected readonly statusFilter = signal<EmployeeStatusFilter>('all');
-
-  protected readonly employees: Employee[] = [
-    {
-      id: '1',
-      name: '山田 太郎',
-      department: '開発部',
-      position: 'Webエンジニア',
-      status: 'active',
-    },
-    {
-      id: '2',
-      name: '佐藤 花子',
-      department: '人事部',
-      position: '採用担当',
-      status: 'active',
-    },
-    {
-      id: '3',
-      name: '鈴木 一郎',
-      department: '営業部',
-      position: '法人営業',
-      status: 'inactive',
-    },
-  ];
+  protected readonly employees = this.employeeService.getEmployees();
 
   protected readonly filteredEmployees = computed(() => {
     const searchTerm = this.searchTerm().trim();
