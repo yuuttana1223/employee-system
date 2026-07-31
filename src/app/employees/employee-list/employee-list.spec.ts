@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
+import { Employee } from '../employee';
+import { EmployeeService } from '../employee-service';
 import { EmployeeList } from './employee-list';
 
 describe('従業員一覧', () => {
@@ -64,5 +66,42 @@ describe('従業員一覧', () => {
     expect(element.textContent).not.toContain('佐藤 花子');
     expect(element.textContent).toContain('表示件数: 1件');
     expect(element.textContent).toContain('ステータス: 退職済み');
+  });
+
+  it('スタブのEmployeeServiceから取得した従業員を表示する', async () => {
+    const stubEmployees: Employee[] = [
+      {
+        id: '99',
+        name: 'テスト 太郎',
+        department: 'テスト部',
+        position: 'テストエンジニア',
+        status: 'active',
+      },
+    ];
+    const employeeServiceStub: Pick<EmployeeService, 'getEmployees'> = {
+      getEmployees: () => stubEmployees,
+    };
+
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: EmployeeService,
+          useValue: employeeServiceStub,
+        },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(EmployeeList);
+    await fixture.whenStable();
+
+    const element: HTMLElement = fixture.nativeElement;
+
+    expect(element.textContent).toContain('テスト 太郎');
+    expect(element.textContent).toContain('テスト部');
+    expect(element.textContent).toContain('テストエンジニア');
+    expect(element.textContent).toContain('表示件数: 1件');
+    expect(element.textContent).not.toContain('山田 太郎');
+    expect(element.textContent).not.toContain('佐藤 花子');
+    expect(element.textContent).not.toContain('鈴木 一郎');
   });
 });
