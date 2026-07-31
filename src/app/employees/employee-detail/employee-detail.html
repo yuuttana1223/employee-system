@@ -1,2 +1,15 @@
 <h1>従業員詳細</h1>
-<p>従業員ID: {{ employeeId }}</p>
+
+@if (employee; as selectedEmployee) {
+  <p>名前: {{ selectedEmployee.name }}</p>
+  <p>部署: {{ selectedEmployee.department }}</p>
+  <p>役職: {{ selectedEmployee.position }}</p>
+
+  @if (selectedEmployee.status === 'active') {
+    <p>ステータス: 在籍中</p>
+  } @else {
+    <p>ステータス: 退職済み</p>
+  }
+} @else {
+  <p>従業員が見つかりません</p>
+}
