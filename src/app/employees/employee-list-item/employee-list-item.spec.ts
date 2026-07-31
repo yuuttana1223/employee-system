@@ -5,20 +5,22 @@ import { Employee } from '../employee';
 import { EmployeeListItem } from './employee-list-item';
 
 describe('従業員一覧項目', () => {
-  const employee: Employee = {
-    id: '1',
-    name: '山田 太郎',
-    department: '開発部',
-    position: 'Webエンジニア',
-    status: 'active',
-  };
-
-  it('従業員名を表示する', async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [EmployeeListItem],
       providers: [provideRouter([])],
     });
+  });
+
+  it('従業員名を表示する', async () => {
     const fixture = TestBed.createComponent(EmployeeListItem);
+    const employee: Employee = {
+      id: '1',
+      name: '山田 太郎',
+      department: '開発部',
+      position: 'Webエンジニア',
+      status: 'active',
+    };
 
     fixture.componentRef.setInput('employee', employee);
     await fixture.whenStable();
@@ -29,10 +31,6 @@ describe('従業員一覧項目', () => {
   });
 
   it('在籍ステータスの変更を表示へ反映する', async () => {
-    TestBed.configureTestingModule({
-      imports: [EmployeeListItem],
-      providers: [provideRouter([])],
-    });
     const fixture = TestBed.createComponent(EmployeeListItem);
 
     const activeEmployee: Employee = {
@@ -63,10 +61,6 @@ describe('従業員一覧項目', () => {
   });
 
   it('従業員IDから詳細リンクを生成する', async () => {
-    TestBed.configureTestingModule({
-      imports: [EmployeeListItem],
-      providers: [provideRouter([])],
-    });
     const fixture = TestBed.createComponent(EmployeeListItem);
 
     const employee: Employee = {
