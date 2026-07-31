@@ -31,4 +31,8 @@ export class EmployeeService {
   getEmployees(): Employee[] {
     return [...this.employees];
   }
+
+  getEmployeeById(employeeId: string): Employee | undefined {
+    return this.employees.find((employee) => employee.id === employeeId);
+  }
 }
