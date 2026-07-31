@@ -1,7 +1,20 @@
 <h1>従業員編集</h1>
 
-<label for="employee-name">氏名</label>
+<form [formGroup]="editForm">
+  <label for="employee-name">氏名</label>
 
-<input id="employee-name" type="text" [formControl]="nameControl" />
+  <input id="employee-name" type="text" formControlName="name" />
 
-<p>入力値: {{ nameControl.value }}</p>
+  <label for="employee-department">部署</label>
+
+  <select id="employee-department" formControlName="department">
+    <option value="">選択してください</option>
+    <option value="開発部">開発部</option>
+    <option value="人事部">人事部</option>
+    <option value="営業部">営業部</option>
+  </select>
+</form>
+
+<p>氏名: {{ editForm.controls.name.value }}</p>
+
+<p>部署: {{ editForm.controls.department.value }}</p>

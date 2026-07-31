@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-edit',
@@ -9,7 +9,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './employee-edit.scss',
 })
 export class EmployeeEdit {
-  protected readonly nameControl = new FormControl('', {
-    nonNullable: true,
+  protected readonly editForm = new FormGroup({
+    name: new FormControl('', {
+      nonNullable: true,
+    }),
+    department: new FormControl('', {
+      nonNullable: true,
+    }),
   });
 }
