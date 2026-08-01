@@ -31,8 +31,7 @@ describe('従業員編集', () => {
     };
 
     const employeeServiceStub: Pick<EmployeeService, 'getEmployeeById'> = {
-      getEmployeeById: (employeeId) =>
-        employeeId === employee.id ? employee : undefined,
+      getEmployeeById: (employeeId) => (employeeId === employee.id ? employee : undefined),
     };
 
     TestBed.configureTestingModule({
@@ -55,18 +54,10 @@ describe('従業員編集', () => {
     }
 
     const nameInput = element.querySelector<HTMLInputElement>('#employee-name');
-    const departmentSelect = element.querySelector<HTMLSelectElement>(
-      '#employee-department',
-    );
-    const submitButton = element.querySelector<HTMLButtonElement>(
-      'button[type="submit"]',
-    );
+    const departmentSelect = element.querySelector<HTMLSelectElement>('#employee-department');
+    const submitButton = element.querySelector<HTMLButtonElement>('button[type="submit"]');
 
-    if (
-      nameInput === null ||
-      departmentSelect === null ||
-      submitButton === null
-    ) {
+    if (nameInput === null || departmentSelect === null || submitButton === null) {
       throw new Error('編集フォームの要素が見つかりません');
     }
 
@@ -129,17 +120,10 @@ describe('従業員編集', () => {
 
     const element: HTMLElement = fixture.nativeElement;
     const nameInput = element.querySelector<HTMLInputElement>('#employee-name');
-    const departmentSelect =
-      element.querySelector<HTMLSelectElement>('#employee-department');
-    const submitButton = element.querySelector<HTMLButtonElement>(
-      'button[type="submit"]',
-    );
+    const departmentSelect = element.querySelector<HTMLSelectElement>('#employee-department');
+    const submitButton = element.querySelector<HTMLButtonElement>('button[type="submit"]');
 
-    if (
-      nameInput === null ||
-      departmentSelect === null ||
-      submitButton === null
-    ) {
+    if (nameInput === null || departmentSelect === null || submitButton === null) {
       throw new Error('フォーム要素が見つかりません');
     }
 
