@@ -5,6 +5,15 @@
 
   <input id="employee-name" type="text" formControlName="name" />
 
+  @if (
+    editForm.controls.name.invalid &&
+    (editForm.controls.name.dirty || editForm.controls.name.touched)
+  ) {
+    @if (editForm.controls.name.hasError('required')) {
+      <p>氏名は必須です</p>
+    }
+  }
+
   <label for="employee-department">部署</label>
 
   <select id="employee-department" formControlName="department">
