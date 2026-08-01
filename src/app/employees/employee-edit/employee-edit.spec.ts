@@ -1,14 +1,78 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
 
+import { Employee } from '../employee';
+import { EmployeeService } from '../employee-service';
 import { EmployeeEdit } from './employee-edit';
 
 describe('従業員編集', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [EmployeeEdit],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([
+          {
+            path: 'employees/:employeeId/edit',
+            component: EmployeeEdit,
+          },
+        ]),
+      ],
     });
+  });
+
+  it('URLの従業員IDに一致する値をフォームへ設定する', async () => {
+    const employee: Employee = {
+      id: '42',
+      name: 'テスト 太郎',
+      department: '人事部',
+      position: 'テストエンジニア',
+      status: 'active',
+    };
+
+    const employeeServiceStub: Pick<EmployeeService, 'getEmployeeById'> = {
+      getEmployeeById: (employeeId) =>
+        employeeId === employee.id ? employee : undefined,
+    };
+
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: EmployeeService,
+          useValue: employeeServiceStub,
+        },
+      ],
+    });
+
+    const harness = await RouterTestingHarness.create();
+
+    await harness.navigateByUrl('/employees/42/edit', EmployeeEdit);
+
+    const element = harness.routeNativeElement;
+
+    if (element === null) {
+      throw new Error('EmployeeEditが表示されていません');
+    }
+
+    const nameInput = element.querySelector<HTMLInputElement>('#employee-name');
+    const departmentSelect = element.querySelector<HTMLSelectElement>(
+      '#employee-department',
+    );
+    const submitButton = element.querySelector<HTMLButtonElement>(
+      'button[type="submit"]',
+    );
+
+    if (
+      nameInput === null ||
+      departmentSelect === null ||
+      submitButton === null
+    ) {
+      throw new Error('編集フォームの要素が見つかりません');
+    }
+
+    expect(nameInput.value).toBe('テスト 太郎');
+    expect(departmentSelect.value).toBe('人事部');
+    expect(submitButton.disabled).toBe(false);
   });
 
   it('氏名を空のままフォーカスから外すと必須エラーを表示する', async () => {
