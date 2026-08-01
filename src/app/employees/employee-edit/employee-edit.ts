@@ -6,6 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 
+interface SubmittedEmployee {
+  name: string;
+  department: string;
+}
+
 @Component({
   selector: 'app-employee-edit',
   standalone: true,
@@ -23,4 +28,14 @@ export class EmployeeEdit {
       nonNullable: true,
     }),
   });
+
+  protected submittedEmployee: SubmittedEmployee | null = null;
+
+  protected submit(): void {
+    if (this.editForm.invalid) {
+      return;
+    }
+
+    this.submittedEmployee = this.editForm.getRawValue();
+  }
 }

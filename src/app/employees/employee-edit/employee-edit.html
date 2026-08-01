@@ -1,6 +1,6 @@
 <h1>従業員編集</h1>
 
-<form [formGroup]="editForm">
+<form [formGroup]="editForm" (ngSubmit)="submit()">
   <label for="employee-name">氏名</label>
 
   <input id="employee-name" type="text" formControlName="name" />
@@ -22,8 +22,18 @@
     <option value="人事部">人事部</option>
     <option value="営業部">営業部</option>
   </select>
+
+  <button type="submit" [disabled]="editForm.invalid">保存</button>
 </form>
 
 <p>氏名: {{ editForm.controls.name.value }}</p>
 
 <p>部署: {{ editForm.controls.department.value }}</p>
+
+@if (submittedEmployee; as employee) {
+  <section>
+    <h2>送信内容</h2>
+    <p>氏名: {{ employee.name }}</p>
+    <p>部署: {{ employee.department }}</p>
+  </section>
+}
