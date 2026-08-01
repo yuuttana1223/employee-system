@@ -28,4 +28,34 @@ describe('従業員編集', () => {
 
     expect(element.textContent).toContain('氏名は必須です');
   });
+
+  it('氏名を入力すると必須エラーを非表示にする', async () => {
+    TestBed.configureTestingModule({
+      imports: [EmployeeEdit],
+    });
+
+    const fixture = TestBed.createComponent(EmployeeEdit);
+    await fixture.whenStable();
+
+    const element: HTMLElement = fixture.nativeElement;
+    const nameInput = element.querySelector<HTMLInputElement>('#employee-name');
+
+    if (nameInput === null) {
+      throw new Error('氏名inputが見つかりません');
+    }
+
+    nameInput.dispatchEvent(new Event('blur'));
+
+    await fixture.whenStable();
+
+    expect(element.textContent).toContain('氏名は必須です');
+
+    nameInput.value = '田中 太郎';
+    nameInput.dispatchEvent(new Event('input'));
+
+    await fixture.whenStable();
+
+    expect(element.textContent).not.toContain('氏名は必須です');
+    expect(element.textContent).toContain('氏名: 田中 太郎');
+  });
 });
