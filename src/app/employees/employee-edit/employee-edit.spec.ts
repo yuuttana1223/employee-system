@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { EmployeeEdit } from './employee-edit';
 
@@ -6,6 +7,7 @@ describe('従業員編集', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [EmployeeEdit],
+      providers: [provideRouter([])],
     });
   });
 

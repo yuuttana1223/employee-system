@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+
+import { EmployeeService } from '../employee-service';
 
 interface SubmittedEmployee {
   name: string;
@@ -19,6 +22,16 @@ interface SubmittedEmployee {
   styleUrl: './employee-edit.scss',
 })
 export class EmployeeEdit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly employeeService = inject(EmployeeService);
+
+  protected readonly employeeId =
+    this.route.snapshot.paramMap.get('employeeId') ?? '';
+
+  protected readonly employee = this.employeeService.getEmployeeById(
+    this.employeeId,
+  );
+
   protected readonly editForm = new FormGroup({
     name: new FormControl('', {
       nonNullable: true,
@@ -30,6 +43,19 @@ export class EmployeeEdit {
   });
 
   protected submittedEmployee: SubmittedEmployee | null = null;
+
+  constructor() {
+    const employee = this.employee;
+
+    if (employee === undefined) {
+      return;
+    }
+
+    this.editForm.patchValue({
+      name: employee.name,
+      department: employee.department,
+    });
+  }
 
   protected submit(): void {
     if (this.editForm.invalid) {
