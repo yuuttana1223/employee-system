@@ -35,4 +35,30 @@ export class EmployeeService {
   getEmployeeById(employeeId: string): Employee | undefined {
     return this.employees.find((employee) => employee.id === employeeId);
   }
+
+  updateEmployee(
+    employeeId: string,
+    changes: Pick<Employee, 'name' | 'department'>,
+  ): Employee | undefined {
+    const employeeIndex = this.employees.findIndex((employee) => employee.id === employeeId);
+
+    if (employeeIndex === -1) {
+      return undefined;
+    }
+
+    const employee = this.employees[employeeIndex];
+
+    if (employee === undefined) {
+      return undefined;
+    }
+
+    const updatedEmployee: Employee = {
+      ...employee,
+      ...changes,
+    };
+
+    this.employees[employeeIndex] = updatedEmployee;
+
+    return updatedEmployee;
+  }
 }

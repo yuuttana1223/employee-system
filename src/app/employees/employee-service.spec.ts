@@ -27,4 +27,34 @@ describe('従業員サービス', () => {
 
     expect(employee).toBeUndefined();
   });
+
+  it('従業員の氏名と部署を更新する', () => {
+    const employeeBeforeUpdate = service.getEmployeeById('2');
+
+    if (employeeBeforeUpdate === undefined) {
+      throw new Error('更新対象の従業員が見つかりません');
+    }
+
+    const updatedEmployee = service.updateEmployee('2', {
+      name: '佐藤 花子（更新）',
+      department: '開発部',
+    });
+
+    if (updatedEmployee === undefined) {
+      throw new Error('従業員を更新できませんでした');
+    }
+
+    expect(updatedEmployee).toEqual({
+      id: '2',
+      name: '佐藤 花子（更新）',
+      department: '開発部',
+      position: '採用担当',
+      status: 'active',
+    });
+    expect(updatedEmployee.id).toBe(employeeBeforeUpdate.id);
+    expect(updatedEmployee.position).toBe(employeeBeforeUpdate.position);
+    expect(updatedEmployee.status).toBe(employeeBeforeUpdate.status);
+
+    expect(service.getEmployeeById('2')).toEqual(updatedEmployee);
+  });
 });
