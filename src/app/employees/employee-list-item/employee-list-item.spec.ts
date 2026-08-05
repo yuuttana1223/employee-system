@@ -77,7 +77,10 @@ describe('従業員一覧項目', () => {
     const element: HTMLElement = fixture.nativeElement;
     const link = element.querySelector<HTMLAnchorElement>('a');
 
-    expect(link).not.toBeNull();
-    expect(link?.getAttribute('href')).toBe('/employees/42');
+    if (link === null) {
+      throw new Error('詳細リンクが見つかりません');
+    }
+
+    expect(link.getAttribute('href')).toBe('/employees/42');
   });
 });
